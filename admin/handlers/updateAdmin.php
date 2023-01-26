@@ -2,12 +2,16 @@
     session_start();
     require('../includes/connection.php');
     require('methods/index.php');
+
     extract($_POST);
     
     $name = handleStringInputs($name);
     $email = handleStringInputs($email);
-    $password = handleStringInputs($password);
 
+    $sql = "SELECT * FROM  `admins` where `id` = $admin_id";
+    $query = mysqli_query($conn , $sql);
+    $admin = mysqli_fetch_assoc($query);
+    $oldImage = $admin['image'];
 
     $errors = [];
 
@@ -29,23 +33,6 @@
         $errors[]='email size error';
     }
 
-    // password
-    if(empty($password)){
-        $errors[]='password is required';
-    }elseif (strlen($password) <= '8') {
-        $errors[] = "Your Password Must Contain At Least 8 Characters!";
-    }
-    elseif(!preg_match("#[0-9]+#",$password)) {
-        $errors[] = "Your Password Must Contain At Least 1 Number!";
-    }
-    elseif(!preg_match("#[A-Z]+#",$password)) {
-        $errors[] = "Your Password Must Contain At Least 1 Capital Letter!";
-    }
-    elseif(!preg_match("#[a-z]+#",$password)) {
-        $errors[] = "Your Password Must Contain At Least 1 Lowercase Letter!";
-    }
-
-
     // image
     if($_FILES['image']['name']){
         // echo '<pre>';
@@ -63,7 +50,7 @@
             $errors[] = "image must be less than 5mb";
         }
     }else{
-        $newName ='default.png';
+        $newName = $oldImage;
     }
 
 
@@ -75,25 +62,26 @@
     // echo '</pre>';
 
     if(empty($errors)){
-        $password = password_hash($password , PASSWORD_DEFAULT);
-        $sql = "INSERT INTO `admins`(`name`,`email`,`password`,`image` ,`is_active`) VALUES ('$name' , '$email', '$password' , '$newName' , '$is_active')";
+        $sql = "UPDATE `admins` set `name`='$name' , `email`='$email' , `is_active`= $is_active , `image` = '$newName'";
 
         if( mysqli_query($conn , $sql) ){
             if($_FILES['image']['name']){
                 move_uploaded_file($tmpName , "../upload/$newName" );
+                if($oldImage != 'default.png'){
+                    unlink("../upload/$oldImage");
+                }
             }
 
-            $_SESSION['success'] = "Admin Created Successfully";
+            $_SESSION['success'] = "Admin updated Successfully";
             header('location: ../admins.php');
             
         }else{
-            header('location: ../add-admin.php');
+            $_SESSION['errors'] = ['Something went wrong'];
 
-            echo "not ok";
+            header('location: ../add-admin.php');
         }
     }else{
         $_SESSION['errors'] = $errors;
         header('location: ../add-admin.php');
-        echo "Something went wrong";
     }
 ?>

@@ -20,16 +20,9 @@
 
     <div class="container-fluid py-5">
         <div class="row">
-            <?php  
-                if(isset($_SESSION['success'])):
-            ?>
-            <div class="alert alert-success" role="alert">
-                <?= $_SESSION['success']?>
-            </div>
-            <?php
-                    unset($_SESSION['success']);
-                endif;
-            ?>
+            <!-- alerts -->
+            <?php require('./includes/alerts.php')?>
+
             <div class="col-md-10 offset-md-1">
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -51,7 +44,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($admins as $index => $admin): ?>
+                        <?php 
+                        if(isset($admins)):
+                        foreach($admins as $index => $admin): ?>
                         <tr>
                             <th scope="row"><?= $index+1?></th>
                             <td><?=  $admin['name']?> </td>
@@ -65,15 +60,27 @@
                             </td>
                             <td> <?= $admin['created_at']?> </td>
                             <td>
-                                <a class="btn btn-sm btn-info" href="#">
+                                <a class="btn btn-sm btn-info" href="./update-admin.php?id=<?= $admin['id']?>">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a class="btn btn-sm btn-danger" href="#">
+
+                                <!-- way 1 delete-->
+                                <!-- <form action="handlers/deleteAdmin.php" method="post">
+                                    <input type="hidden" name="id" value="<?= $admin['id']?>">
+                                    <button class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form> -->
+                                <!-- way 2 delete-->
+                                <a class="btn btn-sm btn-danger" href="handlers/deleteAdmin.php?id=<?= $admin['id']?>">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>
-                        <?php endforeach;?>
+                        <?php 
+                        endforeach;
+                            endif;
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -81,7 +88,7 @@
         </div>
     </div>
     <?php
-      require('includes/scripts.php')
+        require('includes/scripts.php')
     ?>
 </body>
 

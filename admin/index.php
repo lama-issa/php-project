@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    require('includes/head.php')
+    require('includes/head.php');
 ?>
 
 <body>
 
     <?php
-        require('./includes/nav.php')
+        require('./includes/nav.php');
     ?>
 
     <div class="container py-5">

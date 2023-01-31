@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    session_start();
     require('includes/head.php');
     require('includes/connection.php');
     
@@ -15,7 +14,10 @@
 <body>
 
     <?php
-        require('./includes/nav.php')
+        require('./includes/nav.php');
+        if($_SESSION['admin']['role'] == 'admin'){
+            header('location: ./index.php');
+        }
     ?>
 
     <div class="container-fluid py-5">

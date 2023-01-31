@@ -4,10 +4,36 @@
     require('includes/head.php');
     require('includes/connection.php');
     
-    $sql = "SELECT * FROM `sliders`";
+
+    if(isset($_GET['page'])){
+        $page = $_GET['page'];
+        // if the page is less than 1 make an action
+        if($page < 1){
+            header("location: sliders.php?page=1");
+        }
+    }else{
+        $page = 1;
+    }
+
+    
+    $limit = 2;
+    $offset = ($page - 1) * $limit;
+    $sql = "SELECT * FROM `sliders` limit $limit offset $offset ";
     $query = mysqli_query($conn ,$sql);
     if( mysqli_num_rows($query) > 0 ){
         $sliders = mysqli_fetch_all($query , MYSQLI_ASSOC);  
+    }
+
+    // get pagesCount
+    $sql = "SELECT count(id) as slidersCount from sliders";
+    $query = mysqli_query($conn ,$sql);
+    $count = mysqli_fetch_assoc($query)['slidersCount'];
+    $numberOfPages = ceil($count/$limit) ;
+    if($numberOfPages == 0){
+        $numberOfPages = 1;
+    }
+    if($page > $numberOfPages){
+        header("location: sliders.php?page=1");
     }
 ?>
 
@@ -50,7 +76,7 @@
                             <td><?=  $slider['heading']?> </td>
                             <td> <?= $slider['description']?> </td>
                             <td>
-                                <img src="./upload/sliders/<?= $slider['image']?>" alt="slider" style="width: 120px;" >
+                                <img src="./upload/sliders/<?= $slider['image']?>" alt="slider" style="width: 120px;">
                             </td>
                             <td>
                                 <a class="btn btn-sm btn-info" href="./update-slider.php?id=<?= $slider['id']?>">
@@ -65,17 +91,41 @@
                                     </button>
                                 </form> -->
                                 <!-- way 2 delete-->
-                                <a class="btn btn-sm btn-danger" href="handlers/deleteSlider.php?id=<?= $slider['id']?>">
+                                <a class="btn btn-sm btn-danger"
+                                    href="handlers/deleteSlider.php?id=<?= $slider['id']?>">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>
                         <?php 
                         endforeach;
+                    else: 
+                        ?>
+                        <tr>
+                            <td colspan="5" class="text-center">No Sliders found</td>
+                        </tr>
+                        <?php
                             endif;
                         ?>
                     </tbody>
                 </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item <?= $page==1 ? 'disabled' : ''?> ">
+                            <a class="page-link" href="sliders.php?page=<?= $page-1 ?>">Previous</a>
+                        </li>
+
+                        <?php for($i = 1 ; $i <= $numberOfPages ; $i++): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="sliders.php?page=<?=$i?>"><?= $i?></a>
+                        </li>
+                        <?php endfor;?>
+
+                        <li class="page-item <?= $page == $numberOfPages ?  'disabled' : '' ?> ">
+                            <a class="page-link" href="sliders.php?page=<?= $page+1 ?>">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
         </div>

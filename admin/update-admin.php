@@ -23,7 +23,10 @@
 
 <body>
     <?php
-        require('./includes/nav.php')
+        require('./includes/nav.php');
+        if($_SESSION['admin']['role'] == 'admin'){
+            header('location: ./index.php');
+        }
     ?>
 
 

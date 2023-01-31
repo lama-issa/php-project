@@ -10,9 +10,6 @@
     if( mysqli_num_rows($query) > 0 ){
         $sliders = mysqli_fetch_all($query , MYSQLI_ASSOC);  
     }
-    echo '<pre>';
-    print_r($sliders);
-    echo '</pre>';
 ?>
 
 <body>

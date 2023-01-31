@@ -12,6 +12,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                
                 <li class="nav-item active">
                     <a class="nav-link" href="add-services.php">Add Services</a>
                 </li>
@@ -21,14 +22,16 @@
                     <a class="nav-link" href="./sliders.php">SLiders</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Categories</a>
+                    <a class="nav-link" href="./blogs.php">Blogs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Orders</a>
                 </li>
+                <?php if($_SESSION['admin']['role'] == 'super_admin'):?>
                 <li class="nav-item">
                     <a class="nav-link" href="./admins.php">Admins</a>
                 </li>
+                <?php endif;?>
             </ul>
             <ul class="navbar-nav ml-auto mr-5">
                 <li class="nav-item dropdown">

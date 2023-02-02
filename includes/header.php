@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
@@ -30,7 +33,15 @@
           <li><a href="portfolio.php">Portfolio</a></li>
           <li><a href="pricing.php">Pricing</a></li>
           <li><a href="blog.php">Blog</a></li>
+          <?php
+            if(isset($_SESSION['userId'])):
+          ?>
           <li><a href="contact.php">Contact</a></li>
+          <li><a href="handel/logout.php">Logout</a></li>
+          <?php else:?>
+          <li><a href="sign-up.php">Register</a></li>
+          <li><a href="sign-in.php">Login</a></li>
+          <?php endif;?>
 
         </ul>
       </nav><!-- .nav-menu -->

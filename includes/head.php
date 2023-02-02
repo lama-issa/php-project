@@ -35,3 +35,7 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
+
+<?php
+  $conn = mysqli_connect('localhost' , 'root' , '' , 'company');
+?>

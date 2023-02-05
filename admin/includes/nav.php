@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    
     if(!isset($_SESSION['admin'])){
         header("location: login.php");
     }
@@ -35,6 +35,12 @@
             </ul>
             <ul class="navbar-nav ml-auto mr-5">
                 <li class="nav-item dropdown">
+                    <li class="nav-item">
+                        <a class="nav-link" href="handlers/change_lang.php?lang=ar">عربي</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="handlers/change_lang.php?lang=en">en</a>
+                    </li>
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <?= $_SESSION['admin']['name']?>

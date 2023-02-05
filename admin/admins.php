@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <?php
     require('includes/head.php');
     require('includes/connection.php');
@@ -28,9 +27,11 @@
             <div class="col-md-10 offset-md-1">
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3>All Admins</h3>
+                    <h3><?= $messages['all_admins']?></h3>
                     <a href="./add-admin.php" class="btn btn-secondary">
-                        Add New Admin
+                        <?=
+                            $messages['add_new_admin']
+                        ?>
                     </a>
                 </div>
 
@@ -38,11 +39,21 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Created At</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">
+                                <?= $messages['name']?>
+                            </th>
+                            <th scope="col">
+                                <?= $messages['email']?>
+                            </th>
+                            <th scope="col">
+                                <?= $messages['status']?>
+                            </th>
+                            <th scope="col">
+                                <?= $messages['created_at']?>
+                            </th>
+                            <th scope="col">
+                                <?= $messages['actions']?>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
